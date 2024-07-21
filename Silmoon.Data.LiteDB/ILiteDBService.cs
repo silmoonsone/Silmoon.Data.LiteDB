@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using Silmoon.Data.MongoDB.MongoDB.Models;
+using Silmoon.Data.MongoDB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
