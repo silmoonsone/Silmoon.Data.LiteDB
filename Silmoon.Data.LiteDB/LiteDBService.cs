@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using Silmoon.Data.MongoDB;
 using Silmoon.Data.MongoDB.Models;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Silmoon.Data.LiteDB
 {
-    public class LiteDBService : ILiteDBService
+    public class LiteDBService : ILiteDBService, IDisposable
     {
         public ILiteDatabase Database { get; set; }
 
@@ -21,7 +22,7 @@ namespace Silmoon.Data.LiteDB
         public LiteDBService(string connectionString) => Database = new LiteDatabase(connectionString);
         public LiteDBService(ILiteDatabase liteDatabase) => Database = liteDatabase;
 
-        public ILiteCollection<T> GetCollection<T>() where T : IIdObject => Database.GetCollection<T>();
+        public ILiteCollection<T> GetCollection<T>() where T : IIdObject => Database.GetCollection<T>(MongoService.MakeTableName<T>());
 
         public void Add<T>(T obj) where T : IIdObject
         {
@@ -51,7 +52,6 @@ namespace Silmoon.Data.LiteDB
             ILiteQueryableResult<T> result = query;
             if (offset.HasValue) result = query.Skip(offset.Value);
             if (count.HasValue) result = query.Limit(count.Value);
-
             return result;
         }
 
@@ -64,7 +64,6 @@ namespace Silmoon.Data.LiteDB
             ILiteQueryableResult<T> result = query;
             if (offset.HasValue) result = query.Skip(offset.Value);
             if (count.HasValue) result = query.Limit(count.Value);
-
             return result;
         }
 
@@ -73,5 +72,10 @@ namespace Silmoon.Data.LiteDB
         public int Sets<T>(IEnumerable<T> objs) where T : IIdObject => GetCollection<T>().Update(objs);
 
         public int Sets<T>(Expression<Func<T, T>> obj, bool isUpsert = false, Expression<Func<T, bool>> whereFunc = null) where T : IIdObject => GetCollection<T>().UpdateMany(obj, whereFunc);
+
+        public void Dispose()
+        {
+            Database.Dispose();
+        }
     }
 }
