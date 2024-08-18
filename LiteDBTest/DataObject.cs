@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Silmoon.Data.LiteDB
+namespace LiteDBTest
 {
     public class DataObject : IdObject
     {
@@ -15,5 +15,6 @@ namespace Silmoon.Data.LiteDB
         public bool IsDefault { get; set; }
         public string Data1 { get; set; }
         public string Data2 { get; set; }
+        public List<SubModel> Data3 { get; set; } = [];
     }
 }

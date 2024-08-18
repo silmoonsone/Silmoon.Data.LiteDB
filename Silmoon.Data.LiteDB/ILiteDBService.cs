@@ -26,7 +26,7 @@ namespace Silmoon.Data.LiteDB
 
         bool Set<T>(T obj) where T : IIdObject;
         int Sets<T>(IEnumerable<T> objs) where T : IIdObject;
-        int Sets<T>(Expression<Func<T, T>> obj, bool isUpsert = false, Expression<Func<T, bool>> whereFunc = null) where T : IIdObject;
+        int Sets<T>(Expression<Func<T, T>> obj, Expression<Func<T, bool>> whereFunc = null) where T : IIdObject;
 
         int Deletes<T>(Expression<Func<T, bool>> whereFunc) where T : IIdObject;
     }

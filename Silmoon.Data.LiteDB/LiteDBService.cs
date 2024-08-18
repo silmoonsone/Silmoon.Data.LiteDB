@@ -71,7 +71,7 @@ namespace Silmoon.Data.LiteDB
 
         public int Sets<T>(IEnumerable<T> objs) where T : IIdObject => GetCollection<T>().Update(objs);
 
-        public int Sets<T>(Expression<Func<T, T>> obj, bool isUpsert = false, Expression<Func<T, bool>> whereFunc = null) where T : IIdObject => GetCollection<T>().UpdateMany(obj, whereFunc);
+        public int Sets<T>(Expression<Func<T, T>> obj, Expression<Func<T, bool>> whereFunc = null) where T : IIdObject => GetCollection<T>().UpdateMany(obj, whereFunc);
 
         public void Dispose()
         {
